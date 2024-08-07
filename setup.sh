@@ -68,11 +68,11 @@ echo -e "\033[97;40m"
 yay -S --needed - < ./packages-bare-bones
 
 if [[ $_HARDWARE_SPEC -eq 1 ]]; then
-	sudo pacman -S --needed - < ./package-hardware-specific
+	sudo pacman -S --needed - < ./packages-hardware-specific
 fi
 
 if [[ $_QOL -eq 1 ]]; then
-	sudo pacman -S --needed - < ./package-QoL
+	sudo pacman -S --needed - < ./packages-QoL
 fi
 
 echo -ne "\033[32;40m"
