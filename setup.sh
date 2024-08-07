@@ -45,6 +45,20 @@ if [[ -z "$HOME" ]]; then
 fi
 
 echo -ne "\033[32;40m"
+echo "Installing yay"
+echo -e "\033[97;40m"
+
+
+if [[ -z "$(pacman -Qs yay)" ]]; then
+	git clone https://aur.archlinux.org/yay.git
+	cd yay
+	makepkg
+	package=`ls -1 | grep yay | grep -v debug | grep zst`
+	sudo pacman -U "$package"
+	cd ../
+fi
+
+echo -ne "\033[32;40m"
 echo "Installing chosen packages"
 echo -e "\033[97;40m"
 
