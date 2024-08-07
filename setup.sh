@@ -72,7 +72,7 @@ if [[ $_HARDWARE_SPEC -eq 1 ]]; then
 fi
 
 if [[ $_QOL -eq 1 ]]; then
-	sudo pacman -S --needed - < ./packages-QoL
+	yay -S --needed - < ./packages-QoL
 fi
 
 echo -ne "\033[32;40m"
@@ -93,9 +93,9 @@ echo -ne "\033[32;40m"
 echo "Setting up and enabling sddm"
 echo -e "\033[97;40m"
 
-sudo mkdir "$_SDDM_CONFIG_DIR"
+sudo mkdir -p "$_SDDM_CONFIG_DIR"
 sudo cp "$_SDDM_DEFAULT_CONFIG" "$_SDDM_CONFIG_DIR"
-sed "${_SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
+sudo sed -i "${_SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
 sudo systemctl enable sddm.service
 
 echo -ne "\033[32;40m"
@@ -108,7 +108,7 @@ echo -ne "\033[32;40m"
 echo "Enabling multilib repository"
 echo -e "\033[97;40m"
 
-sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' -i /etc/pacman.conf
+sudo sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' -i /etc/pacman.conf
 sudo pacman -Syu
 
 echo -ne "\033[32;40m"
