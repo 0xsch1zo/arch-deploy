@@ -13,6 +13,7 @@ pipewire
 pipewire-audio
 pipewire-pulse
 pipewire-alsa
+pipewire-jack
 wireplumbler
 qt6-wayland
 qt5-wayland
@@ -22,12 +23,10 @@ lsd
 bc
 bluez
 bluez-utils
-fzf
 hypridle
 hyprlock
 hyprpciker
-keepassxc
-kavantum
+kvantum
 kvantum-qt5
 man-db
 man-pages
@@ -36,7 +35,6 @@ oh-my-posh
 pavucontrol
 playerctl
 polkit-gnome
-reflector
 rofi-wayland
 rofi-calc-git
 sddm
