@@ -44,8 +44,10 @@ if [[ -z "$HOME" ]]; then
 	exit 1
 fi
 
+echo -ne "\033[32;40m"
 echo "Installing chosen packages"
-echo "--------------------------\n" -e
+echo -e "\033[97;40m"
+
 yay -S --needed - < ./packages-bare-bones
 
 if [[ $_HARDWARE_SPEC -eq 1 ]]; then
@@ -56,38 +58,57 @@ if [[ $_QOL -eq 1 ]]; then
 	sudo pacman -S --needed - < ./package-QoL
 fi
 
+echo -ne "\033[32;40m"
 echo "Creating default xdg directories"
-echo "--------------------------------\n" -e
+echo -e "\033[97;40m"
+
 xdg-user-dirs-update
 
+echo -ne "\033[32;40m"
 echo "Cloning and deploying the dotfiles"
-echo "----------------------------------\n" -e
+echo -e "\033[97;40m"
+
 git clone "$_DOTFILES" ~/dotfiles
 cd ~/dotfiles
 stow .
 
+echo -ne "\033[32;40m"
 echo "Setting up and enabling sddm"
-echo "----------------------------\n" -e
+echo -e "\033[97;40m"
+
 sudo mkdir "$_SDDM_CONFIG_DIR"
 sudo cp "$_SDDM_DEFAULT_CONFIG" "$_SDDM_CONFIG_DIR"
 sed "${_SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
 sudo systemctl enable sddm.service
 
+echo -ne "\033[32;40m"
 echo "Enabling pipewire"
-echo "-----------------\n" -e
+echo -e "\033[97;40m"
+
 systemctl --user enable pipewire-pulse.service
 
+echo -ne "\033[32;40m"
 echo "Enabling multilib repository"
-echo "----------------------------\n" -e
+echo -e "\033[97;40m"
+
 sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' -i /etc/pacman.conf
 
-if [[ $_HARDWARE_SPECIFIC -eq 1 ]]; then
-	echo "Setting up nvidia"
-	echo "-----------------\n" -e
-	chmod +x ./nvidia.sh && ./nvidia.sh
-fi
-
+echo -ne "\033[32;40m"
 echo "Generating colorscheme"
-echo "----------------------\n" -e
+echo -e "\033[97;40m"
+
 wal --theme "$_COLORSCHEME"
 
+echo -ne "\033[32;40m"
+echo "Changing shell"
+echo -e "\033[97;40m"
+
+chsh -s /usr/bin/zsh
+
+if [[ $_HARDWARE_SPECIFIC -eq 1 ]]; then
+	echo -ne "\033[32;40m"
+	echo "Setting up nvidia"
+	echo -e "\033[97;40m"
+
+	chmod +x ./nvidia.sh && ./nvidia.sh
+fi
