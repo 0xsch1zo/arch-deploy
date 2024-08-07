@@ -1,27 +1,29 @@
 #!/bin/bash
 set -e
 
-help_msg="This is a simple arch deplyoment script. It's meant to be run after a fresh install of arch.\nBy default bare bones setup will be perfomed without setting up any sort of hardware specific software and QoL softwaren\n\n
-			--hardware-specific\tWill install and setup nvidia drivers and additional firmware to get sound working on some computers\n\n
-			--qol\tWill install some quality of life software"
-HARDWARE_SPEC=0
-QOL=0
-DOTFILES="https://github.com/sentientbottleofwine/dotfiles"
-SDDM_CONFIG_DIR="/etc/sddm.conf.d"
-SDDM_DEFAULT_CONFIG="/usr/lib/sddm/sddm.conf.d/default.conf"
+_HELP_MSG="This is a simple arch deplyoment script. It's meant to be run after a fresh install of arch.
+By default bare bones setup will be perfomed without setting up any sort of hardware specific software and QoL softwaren\n\n
+		--hardware-specific		Will install and setup nvidia drivers and additional firmware to get sound working on some computers\n\n
+		--qol					Will install some quality of life software"
+_HARDWARE_SPEC=0
+_QOL=0
+_DOTFILES="https://github.com/sentientbottleofwine/dotfiles"
+_SDDM_CONFIG_DIR="/etc/sddm.conf.d"
+_SDDM_DEFAULT_CONFIG="/usr/lib/sddm/sddm.conf.d/default.conf"
+_COLORSCHEME="tokyo-night"
 
 while [ ! -z "$1" ]; do
 	case $1 in
 		--hardware-specific)
-			HARDWARE_SPEC=1
+			_HARDWARE_SPEC=1
 			;;
 			
 		--qol)
-			QOL=1
+			_QOL=1
 			;;
 
 		--help)
-			echo -e "help_msg"
+			echo -e "$_HELP_MSG"
 			exit 0
 			;;
 
@@ -46,11 +48,11 @@ echo "Installing chosen packages"
 echo "--------------------------\n" -e
 yay -S --needed - < ./packages-bare-bones
 
-if [[ $HARDWARE_SPEC -eq 1 ]]; then
+if [[ $_HARDWARE_SPEC -eq 1 ]]; then
 	sudo pacman -S --needed - < ./package-hardware-specific
 fi
 
-if [[ $QOL -eq 1 ]]; then
+if [[ $_QOL -eq 1 ]]; then
 	sudo pacman -S --needed - < ./package-QoL
 fi
 
@@ -60,15 +62,15 @@ xdg-user-dirs-update
 
 echo "Cloning and deploying the dotfiles"
 echo "----------------------------------\n" -e
-git clone "$DOTFILES" ~/dotfiles
+git clone "$_DOTFILES" ~/dotfiles
 cd ~/dotfiles
 stow .
 
 echo "Setting up and enabling sddm"
 echo "----------------------------\n" -e
-sudo mkdir "$SDDM_CONFIG_DIR"
-sudo cp "$SDDM_DEFAULT_CONFIG" "$SDDM_CONFIG_DIR"
-sed "${SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
+sudo mkdir "$_SDDM_CONFIG_DIR"
+sudo cp "$_SDDM_DEFAULT_CONFIG" "$_SDDM_CONFIG_DIR"
+sed "${_SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
 sudo systemctl enable sddm.service
 
 echo "Enabling pipewire"
@@ -79,8 +81,13 @@ echo "Enabling multilib repository"
 echo "----------------------------\n" -e
 sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' -i /etc/pacman.conf
 
-if [[ $HARDWARE_SPECIFIC -eq 1 ]]; then
+if [[ $_HARDWARE_SPECIFIC -eq 1 ]]; then
 	echo "Setting up nvidia"
-	echo -e "--------------------------\n"
+	echo "-----------------\n" -e
 	chmod +x ./nvidia.sh && ./nvidia.sh
 fi
+
+echo "Generating colorscheme"
+echo "----------------------\n" -e
+wal --theme "$_COLORSCHEME"
+
