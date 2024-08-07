@@ -16,10 +16,12 @@ while [ ! -z "$1" ]; do
 	case $1 in
 		--hardware-specific)
 			_HARDWARE_SPEC=1
+			shift
 			;;
 			
 		--qol)
 			_QOL=1
+			shift
 			;;
 
 		--help)
@@ -44,12 +46,13 @@ if [[ -z "$HOME" ]]; then
 	exit 1
 fi
 
-echo -ne "\033[32;40m"
-echo "Installing yay"
-echo -e "\033[97;40m"
-
 
 if [[ -z "$(pacman -Qs yay)" ]]; then
+	echo -ne "\033[32;40m"
+	echo "Installing yay"
+	echo -e "\033[97;40m"
+	
+	sudo pacman -S base-devel go
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
 	makepkg
