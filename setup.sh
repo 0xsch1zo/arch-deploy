@@ -92,6 +92,7 @@ echo "Enabling multilib repository"
 echo -e "\033[97;40m"
 
 sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' -i /etc/pacman.conf
+sudo pacman -Syu
 
 echo -ne "\033[32;40m"
 echo "Generating colorscheme"
