@@ -21,6 +21,7 @@ while [ ! -z "$1" ]; do
 		--help)
 			echo -e "help_msg"
 			exit 0
+			;;
 		*)
 			echo "Unrecognized option: $1"
 			exit 1
@@ -40,13 +41,13 @@ fi
 
 echo "Installing chosen packages"
 echo -e "--------------------------\n"
-sudo pacman -S --needed - < ./packages-bare-bones
+yay -S --needed - < ./packages-bare-bones
 
-if [[ $HARDWARE_SPEC ]]; then
+if [[ $HARDWARE_SPEC -eq 1 ]]; then
 	sudo pacman -S --needed - < ./package-hardware-specific
 fi
 
-if [[ $QOL ]]; then
+if [[ $QOL -eq 1 ]]; then
 	sudo pacman -S --needed - < ./package-QoL
 fi
 
