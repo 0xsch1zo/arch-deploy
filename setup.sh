@@ -15,13 +15,16 @@ while [ ! -z "$1" ]; do
 		--hardware-specific)
 			HARDWARE_SPEC=1
 			;;
+			
 		--qol)
 			QOL=1
 			;;
+
 		--help)
 			echo -e "help_msg"
 			exit 0
 			;;
+
 		*)
 			echo "Unrecognized option: $1"
 			exit 1
@@ -40,7 +43,7 @@ if [[ -z "$HOME" ]]; then
 fi
 
 echo "Installing chosen packages"
-echo -e "--------------------------\n"
+echo "--------------------------\n" -e
 yay -S --needed - < ./packages-bare-bones
 
 if [[ $HARDWARE_SPEC -eq 1 ]]; then
@@ -52,31 +55,31 @@ if [[ $QOL -eq 1 ]]; then
 fi
 
 echo "Creating default xdg directories"
-echo -e "--------------------------\n"
+echo "--------------------------------\n" -e
 xdg-user-dirs-update
 
 echo "Cloning and deploying the dotfiles"
-echo -e "--------------------------\n"
-git clone "$DOTFILES"
-cd dotfiles
+echo "----------------------------------\n" -e
+git clone "$DOTFILES" ~/dotfiles
+cd ~/dotfiles
 stow .
 
 echo "Setting up and enabling sddm"
-echo -e "--------------------------\n"
+echo "----------------------------\n" -e
 sudo mkdir "$SDDM_CONFIG_DIR"
 sudo cp "$SDDM_DEFAULT_CONFIG" "$SDDM_CONFIG_DIR"
 sed "${SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
 sudo systemctl enable sddm.service
 
 echo "Enabling pipewire"
-echo -e "--------------------------\n"
+echo "-----------------\n" -e
 systemctl --user enable pipewire-pulse.service
 
 echo "Enabling multilib repository"
-echo -e "--------------------------\n"
-sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' /etc/pacman.conf
+echo "----------------------------\n" -e
+sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' -i /etc/pacman.conf
 
-if [[ $HARDWARE_SPECIFIC ]]; then
+if [[ $HARDWARE_SPECIFIC -eq 1 ]]; then
 	echo "Setting up nvidia"
 	echo -e "--------------------------\n"
 	chmod +x ./nvidia.sh && ./nvidia.sh
