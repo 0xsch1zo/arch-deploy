@@ -1,4 +1,5 @@
 sudo
+fzf
 git
 base-devel
 xdg-user-dirs
