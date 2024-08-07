@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 help_msg="This is a simple arch deplyoment script. It's meant to be run after a fresh install of arch.\nBy default bare bones setup will be perfomed without setting up any sort of hardware specific software and QoL softwaren\n\n
 			--hardware-specific\tWill install and setup nvidia drivers and additional firmware to get sound working on some computers\n\n
 			--qol\tWill install some quality of life software"
