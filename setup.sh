@@ -8,12 +8,13 @@ By default bare bones setup will be perfomed without setting up any sort of hard
 _HARDWARE_SPEC=0
 _QOL=0
 _DOTFILES="https://github.com/sentientbottleofwine/dotfiles"
+_DOTFILES_DIR="${HOME}/dotfiles"
 _SDDM_CONFIG_DIR="/etc/sddm.conf.d"
 _SDDM_DEFAULT_CONFIG="/usr/lib/sddm/sddm.conf.d/default.conf"
 _COLORSCHEME="tokyo-night"
 _KVANTUM_THEME="https://github.com/sentientbottleofwine/Kvantum-Tokyo-Night"
 _KVANTUM_THEME_NAME="Kvantum-Tokyo-Night"
-_KVANTUM_DIR="~/.config/Kvantum"
+_KVANTUM_DIR="${HOME}/.config/Kvantum"
 
 while [ ! -z "$1" ]; do
 	case $1 in
@@ -88,9 +89,8 @@ echo -ne "\033[32;40m"
 echo "Cloning and deploying the dotfiles"
 echo -e "\033[97;40m"
 
-git clone "$_DOTFILES" ~/dotfiles
-cd ~/dotfiles
-stow .
+git clone "$_DOTFILES" "$_DOTFILES_DIR"
+stow -t "$HOME" "$_DOTFILES_DIR"
 
 echo -ne "\033[32;40m"
 echo "Setting up and enabling sddm"
