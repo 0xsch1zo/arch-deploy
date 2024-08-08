@@ -11,6 +11,9 @@ _DOTFILES="https://github.com/sentientbottleofwine/dotfiles"
 _SDDM_CONFIG_DIR="/etc/sddm.conf.d"
 _SDDM_DEFAULT_CONFIG="/usr/lib/sddm/sddm.conf.d/default.conf"
 _COLORSCHEME="tokyo-night"
+_KVANTUM_THEME="https://github.com/sentientbottleofwine/Kvantum-Tokyo-Night"
+_KVANTUM_THEME_NAME="Kvantum-Tokyo-Night"
+_KVANTUM_DIR="~/.config/Kvantum"
 
 while [ ! -z "$1" ]; do
 	case $1 in
@@ -116,6 +119,15 @@ echo "Generating colorscheme"
 echo -e "\033[97;40m"
 
 wal --theme "$_COLORSCHEME"
+
+echo -ne "\033[32;40m"
+echo "Setting kvantum theme"
+echo -e "\033[97;40m"
+
+# the environment variable is set in hyprland config
+cd "$_KVANTUM_THEME_NAME"
+git clone "$_KVATNUM_THEME"
+cp -r "$_KVANTUM_THEME_NAME" "$_KVANTUM_DIR"
 
 echo -ne "\033[32;40m"
 echo "Changing shell"
