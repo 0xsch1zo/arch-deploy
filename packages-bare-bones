@@ -1,4 +1,9 @@
-sudo
+libcava-git
+vencord
+rofi-wayland
+oh-my-posh
+spotify
+sddm-sugar-dark
 fzf
 git
 base-devel
@@ -6,9 +11,7 @@ xdg-user-dirs
 alacritty
 hyprland
 waybar
-vencord
 pywal
-spotify
 firefox
 pipewire
 pipewire-audio
@@ -32,14 +35,11 @@ kvantum-qt5
 man-db
 man-pages
 nemo
-oh-my-posh
 pavucontrol
 playerctl
 polkit-gnome
-rofi-wayland
 rofi-calc-git
 sddm
-sddm-sugar-dark
 stow
 swaync
 swww
