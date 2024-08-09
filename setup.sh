@@ -104,12 +104,6 @@ sudo sed -i "${_SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
 sudo systemctl enable sddm.service
 
 echo -ne "\033[32;40m"
-echo "Enabling pipewire"
-echo -e "\033[97;40m"
-
-systemctl --user enable pipewire-pulse.service
-
-echo -ne "\033[32;40m"
 echo "Enabling multilib repository"
 echo -e "\033[97;40m"
 
