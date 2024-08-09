@@ -90,7 +90,9 @@ echo "Cloning and deploying the dotfiles"
 echo -e "\033[97;40m"
 
 git clone "$_DOTFILES" "$_DOTFILES_DIR"
-stow -t "$HOME" "$_DOTFILES_DIR"
+cd "$_DOTFILES_DIR"
+stow -t "$HOME" .
+cd ..
 
 echo -ne "\033[32;40m"
 echo "Setting up and enabling sddm"
@@ -126,7 +128,7 @@ echo -e "\033[97;40m"
 
 # the environment variable is set in hyprland config
 cd "$_KVANTUM_THEME_NAME"
-git clone "$_KVATNUM_THEME"
+git clone "$_KVANTUM_THEME"
 cp -r "$_KVANTUM_THEME_NAME" "$_KVANTUM_DIR"
 
 echo -ne "\033[32;40m"
