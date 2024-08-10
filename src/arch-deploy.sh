@@ -19,7 +19,7 @@ _GTK_THEME="https://github.com/sentientbottleofwine/Tokyonight-GTK-Theme-new-col
 _GTK_THEME_DIR="Tokyonight-GTK-Theme-new-colors/themes"
 _GTK_INSTALL_SCRIPT="install.sh"
 _GTK_BUILD_SCRIPT="build.sh"
-_GTK_INSTALL_FLAGS="--tweaks macos"
+_GTK_TWEAKS="macos"
 _WALLPAPER_TARGET="${HOME}/wallpapers/street-tn.png"
 _WALLPAPER_LINK_NAME="${HOME}/.currentwal.png"
 
@@ -141,7 +141,7 @@ set_gtk_theme () {
 
 	git clone "$_GTK_THEME"
 	cd "$_GTK_THEME_DIR"
-	"./${_GTK_BUILD_SCRIPT}" && "./${_GTK_INSTALL_SCRIPT}" "${_GTK_INSTALL_FLAGS}"
+	"./${_GTK_BUILD_SCRIPT}" && "./${_GTK_INSTALL_SCRIPT}" --tweaks "${_GTK_TWEAKS}"
 }
 
 change_shell () {
