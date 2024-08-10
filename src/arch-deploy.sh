@@ -16,9 +16,9 @@ _KVANTUM_THEME="https://github.com/sentientbottleofwine/Kvantum-Tokyo-Night"
 _KVANTUM_THEME_NAME="Kvantum-Tokyo-Night"
 _KVANTUM_DIR="${HOME}/.config/Kvantum"
 _GTK_THEME="https://github.com/sentientbottleofwine/Tokyonight-GTK-Theme-new-colors"
-_GTK_THEME_NAME="Tokyonight-GTK-Theme-new-colors"
-_GTK_INSTALL_SCRIPT="themes/install.sh"
-_GTK_BUILD_SCRIPT="themes/build.sh"
+_GTK_THEME_DIR="Tokyonight-GTK-Theme-new-colors/themes"
+_GTK_INSTALL_SCRIPT="install.sh"
+_GTK_BUILD_SCRIPT="build.sh"
 _GTK_INSTALL_FLAGS="--tweaks macos"
 _WALLPAPER_TARGET="${HOME}/wallpapers/street-tn.png"
 _WALLPAPER_LINK_NAME="${HOME}/.currentwal.png"
@@ -133,13 +133,15 @@ set_kvantum_theme () {
 	git clone "$_KVANTUM_THEME"
 	cd "$_KVANTUM_THEME_NAME"
 	cp -r "$_KVANTUM_THEME_NAME" "$_KVANTUM_DIR"
+	cd ..
 }
 
 set_gtk_theme () {
 	color_decorations "Setting GTK theme"
 
 	git clone "$_GTK_THEME"
-	"./${_GTK_THEME_NAME}/${_GTK_BUILD_SCRIPT}" && "./${_GTK_THEME_NAME}/${GTK_INSTALL_SCRIPT} ${_GTK_INSTALL_FLAGS}"
+	cd "$_GTK_THEME_DIR"
+	"./${_GTK_BUILD_SCRIPT}" && "./${_GTK_INSTALL_SCRIPT}" "${_GTK_INSTALL_FLAGS}"
 }
 
 change_shell () {
