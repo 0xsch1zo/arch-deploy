@@ -70,7 +70,7 @@ install_yay () {
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
 	makepkg
-	package=`ls -1 | grep yay | grep -v debug | grep zst`
+	package=`ls -1 | grep -E 'yay.*zst' | grep -v debug
 	sudo pacman -U --noconfirm "$package"
 	cd ../
 }
