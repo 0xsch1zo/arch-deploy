@@ -20,7 +20,7 @@ _GTK_THEME_DIR="Tokyonight-GTK-Theme-new-colors/themes"
 _GTK_INSTALL_SCRIPT="install.sh"
 _GTK_BUILD_SCRIPT="build.sh"
 _GTK_TWEAKS="macos"
-_WALLPAPER_TARGET="${HOME}/wallpapers/street-tn.png"
+_WALLPAPER_TARGET="${HOME}/wallpapers/tokyo-night/street-tn.png"
 _WALLPAPER_LINK_NAME="${HOME}/.currentwal.png"
 
 while [ ! -z "$1" ]; do
