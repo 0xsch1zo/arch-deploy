@@ -1,5 +1,6 @@
 #!/bin/bash
 # Requires mkinitcpio and grub
+set -e
 
 MKINITCPIO_MODULES="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
 MODPROBE_CONFIG_DIR="/etc/modprobe.d"
