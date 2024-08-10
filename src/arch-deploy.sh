@@ -21,6 +21,8 @@ _GTK_INSTALL_SCRIPT="themes/install.sh"
 _GTK_BUILD_SCRIPT="themes/build.sh"
 _GTK_INSTALL_FLAGS="--tweaks macos"
 _PACKAGE_MANAGER_FLAGS="--needed --noconfirm"
+_WALLPAPER_TARGET="${HOME}/wallpapers/street-tn.png"
+_WALLPAPER_LINK_NAME="${HOME}/.currentwal.png"
 
 while [ ! -z "$1" ]; do
 	case $1 in
@@ -142,9 +144,15 @@ set_gtk_theme () {
 }
 
 change_shell () {
-	color_decorations "Changing shell"
+	color_decorations "Changing shell to zsh"
 
 	chsh -s /usr/bin/zsh
+}
+
+symlink_first_wallpaper () {
+	color_decorations "Symlinking an initial wallpaper"
+
+	ln -s "$_WALLPAPER_TARGET" "$_WALLPAPER_LINK_NAME"
 }
 
 run_nvidia () {
@@ -152,7 +160,6 @@ run_nvidia () {
 	
 	chmod +x ./nvidia.sh && ./nvidia.sh
 }
-
 
 if [[ -z "$(pacman -Qs yay)" ]]; then
 	install_yay
@@ -176,8 +183,10 @@ set_gtk_theme
 
 change_shell
 
+symlink_first_wallpaper
+
 if [[ $_HARDWARE_SPECIFIC -eq 1 ]]; then
 	run_nvidia
 else
 	color_decorations "Finished! You can reboot now."
-fi
+fiTokyonight-GTK-Theme-new-colors
