@@ -20,7 +20,6 @@ _GTK_THEME_NAME="Tokyonight-GTK-Theme-new-colors"
 _GTK_INSTALL_SCRIPT="themes/install.sh"
 _GTK_BUILD_SCRIPT="themes/build.sh"
 _GTK_INSTALL_FLAGS="--tweaks macos"
-_PACKAGE_MANAGER_FLAGS="--needed --noconfirm"
 _WALLPAPER_TARGET="${HOME}/wallpapers/street-tn.png"
 _WALLPAPER_LINK_NAME="${HOME}/.currentwal.png"
 
@@ -67,26 +66,26 @@ color_decorations () {
 install_yay () {
 	color_decorations "Installing yay"
 	
-	sudo pacman -S base-devel go
+	sudo pacman -S --noconfirm --needed base-devel go
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
 	makepkg
 	package=`ls -1 | grep yay | grep -v debug | grep zst`
-	sudo pacman -U "$package"
+	sudo pacman -U --noconfirm "$package"
 	cd ../
 }
 
 install_packages () {
 	color_decorations "Installing chosen packages"
 
-	yay -S "$_PACKAGE_MANAGER_FLAGS" - < ./packages-bare-bones
+	yay -S --needed --noconfirm - < ./packages-bare-bones
 
 	if [[ $_HARDWARE_SPEC -eq 1 ]]; then
-		sudo pacman -S "$_PACKAGE_MANAGER_FLAGS" - < ./packages-hardware-specific
+		sudo pacman -S --needed --noconfirm - < ./packages-hardware-specific
 	fi
 
 	if [[ $_QOL -eq 1 ]]; then
-		yay -S "$_PACKAGE_MANAGER_FLAGS" - < ./packages-QoL
+		yay -S --needed --noconfirm - < ./packages-QoL
 	fi
 }
 
