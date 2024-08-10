@@ -55,11 +55,14 @@ if [[ -z "$HOME" ]]; then
 	exit 1
 fi
 
-
-if [[ -z "$(pacman -Qs yay)" ]]; then
+color_decorations () {
 	echo -ne "\033[32;40m"
-	echo "Installing yay"
+	echo $1
 	echo -e "\033[97;40m"
+}
+
+install_yay () {
+	color_decorations "Installing yay"
 	
 	sudo pacman -S base-devel go
 	git clone https://aur.archlinux.org/yay.git
@@ -68,85 +71,112 @@ if [[ -z "$(pacman -Qs yay)" ]]; then
 	package=`ls -1 | grep yay | grep -v debug | grep zst`
 	sudo pacman -U "$package"
 	cd ../
+}
+
+install_packages () {
+	color_decorations "Installing chosen packages"
+
+	yay -S --needed - < ./packages-bare-bones
+
+	if [[ $_HARDWARE_SPEC -eq 1 ]]; then
+		sudo pacman -S --needed - < ./packages-hardware-specific
+	fi
+
+	if [[ $_QOL -eq 1 ]]; then
+		yay -S --needed - < ./packages-QoL
+	fi
+}
+
+create_xdg_dirs () {
+	color_decorations "Creating default xdg directories"
+
+	xdg-user-dirs-update
+}
+
+deploy_dotfiles () {
+	color_decorations "Cloning and deploying the dotfiles"
+
+	git clone "$_DOTFILES" "$_DOTFILES_DIR"
+	cd "$_DOTFILES_DIR"
+	stow -t "$HOME" .
+	cd ..
+}
+
+sddm_stuff () {
+	color_decorations "Setting up and enabling sddm"
+
+	sudo mkdir -p "$_SDDM_CONFIG_DIR"
+	sudo cp "$_SDDM_DEFAULT_CONFIG" "$_SDDM_CONFIG_DIR"
+	sudo sed -i "${_SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
+	sudo systemctl enable sddm.service
+}
+
+enable_multilib_repo () {
+	color_decorations "Enabling multilib repository"
+
+	sudo sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' -i /etc/pacman.conf
+	sudo pacman -Syu
+}
+
+generate_colorscheme () {
+	color_decorations "Generating colorscheme"
+
+	wal --theme "$_COLORSCHEME"
+}
+
+set_kvantum_theme () {
+	color_decorations "Setting kvantum theme"
+
+	# the environment variable is set in hyprland config
+	git clone "$_KVANTUM_THEME"
+	cd "$_KVANTUM_THEME_NAME"
+	cp -r "$_KVANTUM_THEME_NAME" "$_KVANTUM_DIR"
+}
+
+set_gtk_theme () {
+	color_decorations "Setting GTK theme"
+
+	git clone "$_GTK_THEME"
+	"./${_GTK_THEME_NAME}/${_GTK_BUILD_SCRIPT}" && "./${_GTK_THEME_NAME}/${GTK_INSTALL_SCRIPT} ${_GTK_INSTALL_FLAGS}"
+}
+
+change_shell () {
+	color_decorations "Changing shell"
+
+	chsh -s /usr/bin/zsh
+}
+
+run_nvidia () {
+	color_decorations "Setting up nvidia"
+	
+	chmod +x ./nvidia.sh && ./nvidia.sh
+}
+
+
+if [[ -z "$(pacman -Qs yay)" ]]; then
+	install_yay
 fi
 
-echo -ne "\033[32;40m"
-echo "Installing chosen packages"
-echo -e "\033[97;40m"
+install_packages
 
-yay -S --needed - < ./packages-bare-bones
+create_xdg_dirs
 
-if [[ $_HARDWARE_SPEC -eq 1 ]]; then
-	sudo pacman -S --needed - < ./packages-hardware-specific
-fi
+deploy_dotfiles
 
-if [[ $_QOL -eq 1 ]]; then
-	yay -S --needed - < ./packages-QoL
-fi
+sddm_stuff
 
-echo -ne "\033[32;40m"
-echo "Creating default xdg directories"
-echo -e "\033[97;40m"
+enable_multilib_repo
 
-xdg-user-dirs-update
+generate_colorscheme
 
-echo -ne "\033[32;40m"
-echo "Cloning and deploying the dotfiles"
-echo -e "\033[97;40m"
+set_kvantum_theme
 
-git clone "$_DOTFILES" "$_DOTFILES_DIR"
-cd "$_DOTFILES_DIR"
-stow -t "$HOME" .
-cd ..
+set_gtk_theme
 
-echo -ne "\033[32;40m"
-echo "Setting up and enabling sddm"
-echo -e "\033[97;40m"
-
-sudo mkdir -p "$_SDDM_CONFIG_DIR"
-sudo cp "$_SDDM_DEFAULT_CONFIG" "$_SDDM_CONFIG_DIR"
-sudo sed -i "${_SDDM_CONFIG_DIR}/default.conf" -e "s/User=.*/User=${USER}/"
-sudo systemctl enable sddm.service
-
-echo -ne "\033[32;40m"
-echo "Enabling multilib repository"
-echo -e "\033[97;40m"
-
-sudo sed -e 's/^#\[multilib\]$/[multilib]/' -e '\|^\[multilib\]$|{n;s|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist/|;}' -i /etc/pacman.conf
-sudo pacman -Syu
-
-echo -ne "\033[32;40m"
-echo "Generating colorscheme"
-echo -e "\033[97;40m"
-
-wal --theme "$_COLORSCHEME"
-
-echo -ne "\033[32;40m"
-echo "Setting kvantum theme"
-echo -e "\033[97;40m"
-
-# the environment variable is set in hyprland config
-git clone "$_KVANTUM_THEME"
-cd "$_KVANTUM_THEME_NAME"
-cp -r "$_KVANTUM_THEME_NAME" "$_KVANTUM_DIR"
-
-echo -ne "\033[32;40m"
-echo "Setting GTK theme"
-echo -e "\033[97;40m"
-
-git clone "$_GTK_THEME"
-"./${_GTK_THEME_NAME}/${_GTK_BUILD_SCRIPT}" && "./${_GTK_THEME_NAME}/${GTK_INSTALL_SCRIPT} ${_GTK_INSTALL_FLAGS}"
-
-echo -ne "\033[32;40m"
-echo "Changing shell"
-echo -e "\033[97;40m"
-
-chsh -s /usr/bin/zsh
+change_shell
 
 if [[ $_HARDWARE_SPECIFIC -eq 1 ]]; then
-	echo -ne "\033[32;40m"
-	echo "Setting up nvidia"
-	echo -e "\033[97;40m"
-
-	chmod +x ./nvidia.sh && ./nvidia.sh
+	run_nvidia
+else
+	color_decorations "Finished! You can reboot now."
 fi
