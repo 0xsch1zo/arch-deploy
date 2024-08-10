@@ -20,6 +20,7 @@ _GTK_THEME_NAME="Tokyonight-GTK-Theme-new-colors"
 _GTK_INSTALL_SCRIPT="themes/install.sh"
 _GTK_BUILD_SCRIPT="themes/build.sh"
 _GTK_INSTALL_FLAGS="--tweaks macos"
+_PACKAGE_MANAGER_FLAGS="--needed --noconfirm"
 
 while [ ! -z "$1" ]; do
 	case $1 in
@@ -76,14 +77,14 @@ install_yay () {
 install_packages () {
 	color_decorations "Installing chosen packages"
 
-	yay -S --needed - < ./packages-bare-bones
+	yay -S "$_PACKAGE_MANAGER_FLAGS" - < ./packages-bare-bones
 
 	if [[ $_HARDWARE_SPEC -eq 1 ]]; then
-		sudo pacman -S --needed - < ./packages-hardware-specific
+		sudo pacman -S "$_PACKAGE_MANAGER_FLAGS" - < ./packages-hardware-specific
 	fi
 
 	if [[ $_QOL -eq 1 ]]; then
-		yay -S --needed - < ./packages-QoL
+		yay -S "$_PACKAGE_MANAGER_FLAGS" - < ./packages-QoL
 	fi
 }
 
