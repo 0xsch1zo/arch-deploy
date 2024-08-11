@@ -2,7 +2,7 @@
 
 This script is supposed to be used after a fresh install of arch. It installs my [dotfiles](https://github.com/sentientbottleofwine/dotfiles), sets up sound, installs themes and more.
 
-[!WARNING]
+> [!WARNING]
 > Use this script at your own risk
 
 ## Usage
