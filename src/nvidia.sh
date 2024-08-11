@@ -10,6 +10,7 @@ MODPROBE_CONFIG_NVIDIA="${MODPROBE_CONFIG_DIR}/nvidia.conf"
 echo -ne "\033[2K\r\033[31;40m"
 echo "WARNING: This script doesn't install the kernel headers for you. Please install the apropriate kernel headers for your kernel. You can add the right kernel header package to the packages-bare-bones file"
 echo "Press any key to continue..."
+clear
 read
 
 # Add nvidia driver modules to the initramfs
@@ -33,7 +34,7 @@ fi
 # Enable serbices needed for proper suspend
 sudo systemctl enable nvidia-suspend.service nvidia-resume.service nvidia-hibernate.service
 
-# Rebuild mkinitcpio
+# Rebuild initramfs
 sudo mkinitcpio -P
 echo -ne "\033[2K\r\033[31;40m"
 echo -e "Because of setting kernel parameters, and some other stuff a reboot is required for everything to work properly"
