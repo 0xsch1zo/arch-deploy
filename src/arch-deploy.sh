@@ -188,6 +188,6 @@ symlink_first_wallpaper
 
 if [[ $_HARDWARE_SPEC -eq 1 ]]; then
 	run_nvidia
-else
-	color_decorations "Finished! You can reboot now."
 fi
+
+color_decorations "Finished! You can reboot now."

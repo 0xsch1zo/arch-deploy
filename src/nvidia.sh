@@ -3,23 +3,33 @@
 set -e
 
 MKINITCPIO_MODULES="nvidia nvidia_modeset nvidia_uvm nvidia_drm"
+MKINITCPIO_CONFIG="/etc/mkinitcpio.conf"
 MODPROBE_CONFIG_DIR="/etc/modprobe.d"
+MODPROBE_CONFIG_NVIDIA="${MODPROBE_CONFIG_DIR}/nvidia.conf"
 
 # Add nvidia driver modules to the initramfs
-sudo sed -e "s/^MODULES=(/MODULES=(${MKINITCPIO_MODULES}/" -i /etc/mkinitcpio.conf
+modules_found=`grep "${MKINITCPIO_MODULES}" "${MKINITCPIO_CONFIG}"`
 
-sudo mkdir -p "${MODPROBE_CONFIG_DIR}"
-sudo bash -c "echo -e options nvidia_drm modeset=1 fbdev=1 >> \"${MODPROBE_CONFIG_DIR}/nvidia.conf\""
-sudo bash -c "echo -e options nvidia NVreg_PreserveVideoMemoryAllocations=1 >> \"${MODPROBE_CONFIG_DIR}/nvidia.conf\""
+if [[ -z $modules_found ]]; then
+	sudo sed -e "s/^MODULES=(/MODULES=(${MKINITCPIO_MODULES}/" -i "${MKINITCPIO_CONFIG}"
+fi
+
+if [[ -f "${MODPROBE_CONFIG_NVIDIA}" ]]; then
+	echo "${MODPROBE_CONFIG_NVIDIA}, already exists"
+	exit 1
+else
+	sudo mkdir -p "${MODPROBE_CONFIG_DIR}"
+	sudo bash -c "cat > ${MODPROBE_CONFIG_NVIDIA} << EOF
+options nvidia_drm modeset=1 fbdev=1 
+options nvidia NVreg_PreserveVideoMemoryAllocations=1
+EOF"
+fi
 
 # Enable serbices needed for proper suspend
 sudo systemctl enable nvidia-suspend.service nvidia-resume.service nvidia-hibernate.service
 
 # Rebuild mkinitcpio
 sudo mkinitcpio -P
-for time in {10..1}; do
-	echo -ne "\033[2K\r\033[31;40m"
-	echo -e "Warning the system will reboot in $time"
-	sleep 1
-done
-sudo reboot
+echo -ne "\033[2K\r\033[31;40m"
+echo -e "Because of setting kernel parameters, and some other stuff a reboot is required for everything to work properly"
+
