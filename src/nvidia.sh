@@ -7,6 +7,11 @@ MKINITCPIO_CONFIG="/etc/mkinitcpio.conf"
 MODPROBE_CONFIG_DIR="/etc/modprobe.d"
 MODPROBE_CONFIG_NVIDIA="${MODPROBE_CONFIG_DIR}/nvidia.conf"
 
+echo -ne "\033[2K\r\033[31;40m"
+echo "WARNING: This script doesn't install the kernel headers for you. Please install the apropriate kernel headers for your kernel. You can add the right kernel header package to the packages-bare-bones file"
+echo "Press any key to continue..."
+read
+
 # Add nvidia driver modules to the initramfs
 modules_found=`grep "${MKINITCPIO_MODULES}" "${MKINITCPIO_CONFIG}"`
 
