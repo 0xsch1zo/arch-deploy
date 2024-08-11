@@ -1,3 +1,9 @@
+pipewire
+pipewire-audio
+pipewire-pulse
+pipewire-alsa
+pipewire-jack
+wireplumbler
 libcava-git
 vencord
 rofi-wayland
@@ -13,12 +19,6 @@ hyprland
 waybar
 pywal
 firefox
-pipewire
-pipewire-audio
-pipewire-pulse
-pipewire-alsa
-pipewire-jack
-wireplumbler
 qt6-wayland
 qt5-wayland
 xdg-desktop-portal-hyprland

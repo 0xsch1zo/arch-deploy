@@ -71,13 +71,15 @@ install_yay () {
 	git clone https://aur.archlinux.org/yay.git
 	cd yay
 	makepkg
-	package=`ls -1 | grep -E 'yay.*zst' | grep -v debug
+	package=`ls -1 | grep -E 'yay.*zst' | grep -v debug`
 	sudo pacman -U --noconfirm "$package"
 	cd ../
 }
 
 install_packages () {
 	color_decorations "Installing chosen packages"
+
+	yay -S --needed --noconfirm - < ./packages-bare-bones
 
 	if [[ $_HARDWARE_SPEC -eq 1 ]]; then
 		sudo pacman -S --needed --noconfirm - < ./packages-hardware-specific
@@ -86,8 +88,6 @@ install_packages () {
 	if [[ $_QOL -eq 1 ]]; then
 		yay -S --needed --noconfirm - < ./packages-QoL
 	fi
-
-	yay -S --needed --noconfirm - < ./packages-bare-bones
 }
 
 create_xdg_dirs () {
