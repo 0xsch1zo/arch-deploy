@@ -2,9 +2,10 @@
 set -e
 
 _HELP_MSG="This is a simple arch deplyoment script. It's meant to be run after a fresh install of arch.
-By default bare bones setup will be perfomed without setting up any sort of hardware specific software and QoL softwaren\n\n
-		--hardware-specific		Will install and setup nvidia drivers and additional firmware to get sound working on some computers\n\n
-		--qol					Will install some quality of life software"
+By default bare bones setup will be perfomed without setting up any sort of hardware specific software and QoL software.
+--hardware-specific\tWill install and setup nvidia drivers and additional firmware to get sound working on some computers\n
+--qol\t\t\tWill install some quality of life software\n
+--help\t\t\tDisplays this message"
 _HARDWARE_SPEC=0
 _QOL=0
 _DOTFILES="https://github.com/sentientbottleofwine/dotfiles"
