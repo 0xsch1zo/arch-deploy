@@ -15,3 +15,11 @@ By default bare bones setup will be perfomed without setting up any sort of hard
 
 --help			Displays this message
 ```
+
+## Install
+All of packages-* files are package lists.
+```sh
+git clone https://github.com/sentientbottleofwine/arch-deploy
+cd arch-deploy/src/
+./arch-deploy.sh
+```
