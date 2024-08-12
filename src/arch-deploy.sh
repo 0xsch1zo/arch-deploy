@@ -81,9 +81,9 @@ install_packages () {
 	color_decorations "Installing chosen packages"
 	if [[ -f ./packages ]] || [[ -f ./packages-aur ]]; then
 		echo -ne "\033[31;40m"
-		echo "Watning ./packages or ./packages-aur files already exist this operation will overwrite them. Press any key to continue.(Ctrl+C to stop)"
+		echo "Watning ./packages or ./packages-aur files already exist this operation will overwrite them. Press enter to continue.(Ctrl+C to stop)"
 		echo -e "\033[97;40m"
-		read
+		read -s
 	fi
 
 	sudo pacman -S --needed --noconfirm - < ./packages-depconflict 
@@ -98,6 +98,7 @@ install_packages () {
 		cat ./packages-QoL >> ./packages
 		cat ./packages-QoL-aur >> ./packages-aur
 	fi
+
 	sudo pacman -S --needed --noconfirm - < ./packages
 	yay -S --needed --noconfirm - < ./packages-aur
 }
@@ -172,7 +173,7 @@ symlink_first_wallpaper () {
 run_nvidia () {
 	color_decorations "Setting up nvidia"
 	
-	cd "_ORGINALL_PATH"
+	cd "$_ORGINAL_PATH"
 	chmod +x ./nvidia.sh && ./nvidia.sh
 }
 
