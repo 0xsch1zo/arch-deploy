@@ -79,6 +79,7 @@ install_yay () {
 install_packages () {
 	color_decorations "Installing chosen packages"
 
+	sudo pacman -S --needed --noconfirm - < ./packages-depconflict
 	yay -S --needed --noconfirm - < ./packages-bare-bones
 
 	if [[ $_HARDWARE_SPEC -eq 1 ]]; then

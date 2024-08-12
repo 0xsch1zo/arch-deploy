@@ -1,11 +1,5 @@
-pipewire
-pipewire-audio
-pipewire-pulse
-pipewire-alsa
-pipewire-jack
-wireplumbler
+rofi-calc-git
 libcava-git
-swaync
 rofi-wayland
 oh-my-posh
 spotify
@@ -24,7 +18,6 @@ qt5-wayland
 xdg-desktop-portal-hyprland
 bat
 lsd
-bc
 bluez
 bluez-utils
 hypridle
@@ -38,7 +31,6 @@ nemo
 pavucontrol
 playerctl
 polkit-gnome
-rofi-calc-git
 sddm
 stow
 swaync
