@@ -4,7 +4,6 @@ xdg-user-dirs
 alacritty
 hyprland
 waybar
-pywal
 firefox
 qt6-wayland
 qt5-wayland
@@ -15,7 +14,6 @@ bluez
 bluez-utils
 hypridle
 hyprlock
-hyprpciker
 kvantum
 kvantum-qt5
 man-db
