@@ -173,7 +173,7 @@ symlink_first_wallpaper () {
 run_nvidia () {
 	color_decorations "Setting up nvidia"
 	
-	cd "$_ORGINAL_PATH"
+	cd "$_ORIGINAL_PATH"
 	chmod +x ./nvidia.sh && ./nvidia.sh
 }
 
