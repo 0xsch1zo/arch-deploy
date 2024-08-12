@@ -81,13 +81,13 @@ install_packages () {
 	if [[ -f ./packages ]] || [[ -f ./packages-aur ]]; then
 		echo -ne "\033[31;40m"
 		echo "Watning ./packages or ./packages-aur files already exist this operation will overwrite them. Press any key to continue.(Ctrl+C to stop)"
-		read
 		echo -e "\033[97;40m"
+		read
 	fi
 
 	sudo pacman -S --needed --noconfirm - < ./packages-depconflict 
 	cat ./packages-bare-bones > ./packages
-	cat ./packages-bare-bones-aur > ./pakcages-aur
+	cat ./packages-bare-bones-aur > ./packages-aur
 
 	if [[ $_HARDWARE_SPEC -eq 1 ]]; then
 		cat ./packages-hardware-specific >> ./packages
