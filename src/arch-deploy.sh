@@ -79,16 +79,20 @@ install_yay () {
 install_packages () {
 	color_decorations "Installing chosen packages"
 
-	sudo pacman -S --needed --noconfirm - < ./packages-depconflict
-	yay -S --needed --noconfirm - < ./packages-bare-bones
+	sudo pacman -S --needed --noconfirm - < ./packages-depconflict 
+	cat ./packages-bare-bones >> ./packages
+	cat ./packages-bare-bones-aur >> ./pakcages-aur
 
 	if [[ $_HARDWARE_SPEC -eq 1 ]]; then
-		sudo pacman -S --needed --noconfirm - < ./packages-hardware-specific
+		cat ./packages-hardware-specific >> ./packages
 	fi
 
 	if [[ $_QOL -eq 1 ]]; then
-		yay -S --needed --noconfirm - < ./packages-QoL
+		cat ./packages-QoL >> ./packages
+		cat ./packages-QoL-aur >> ./packages-aur
 	fi
+	sudo pacman -S --needed --noconfirm - < ./packages
+	yay -S --needed --noconfirm - < ./packages-aur
 }
 
 create_xdg_dirs () {
