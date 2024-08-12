@@ -3,7 +3,7 @@
 This script is supposed to be used after a fresh install of arch. It installs my [dotfiles](https://github.com/sentientbottleofwine/dotfiles), sets up sound, installs themes and more.
 
 > [!WARNING]
-> Use this script at your own risk
+> This script has been tested but still use it at your own risk
 
 ## Usage
 ```
@@ -21,5 +21,5 @@ All of packages-* files are package lists.
 ```sh
 git clone https://github.com/sentientbottleofwine/arch-deploy
 cd arch-deploy/src/
-./arch-deploy.sh
+./arch-deploy.sh [options]
 ```
