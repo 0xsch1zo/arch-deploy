@@ -23,6 +23,7 @@ _GTK_BUILD_SCRIPT="build.sh"
 _GTK_TWEAKS="macos"
 _WALLPAPER_TARGET="${HOME}/wallpapers/tokyo-night/street-tn.png"
 _WALLPAPER_LINK_NAME="${HOME}/.currentwal.png"
+_ORIGINAL_PATH="$PWD"
 
 while [ ! -z "$1" ]; do
 	case $1 in
@@ -171,6 +172,7 @@ symlink_first_wallpaper () {
 run_nvidia () {
 	color_decorations "Setting up nvidia"
 	
+	cd "_ORGINALL_PATH"
 	chmod +x ./nvidia.sh && ./nvidia.sh
 }
 
