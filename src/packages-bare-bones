@@ -3,7 +3,6 @@ base-devel
 xdg-user-dirs
 alacritty
 hyprland
-waybar
 firefox
 qt6-wayland
 qt5-wayland
